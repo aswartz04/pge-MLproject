@@ -27,6 +27,7 @@ colnames(pge.n) <- c("TotalCustomers","TotalkWh","AveragekWh","CustomerClass")
 summary(pge.n)
 
 #split dataset into 60 percent train 40 percent test
+library(caret)
 train.sub <- createDataPartition(pge.n$CustomerClass,p=0.60,list=F)
 train.pge <- pge.n[train.sub,]
 test.pge <- pge.n[-train.sub,]
@@ -44,6 +45,7 @@ model <- train(CustomerClass~.,data=train.pge,method="knn",metric="Kappa",
 model
 
 p <- predict(model,test.pge)
+library(gmodels)
 CrossTable(x=test.pge$CustomerClass,y=p,prop.chisq=F,prop.c=F,prop.r=F,
 	     dnn=c("Actual Customer Class","Predicted Customer Class"))
 
